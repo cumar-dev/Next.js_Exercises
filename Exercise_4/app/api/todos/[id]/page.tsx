@@ -74,7 +74,12 @@ export async function PUT(req: NextRequest, { params }: Props) {
       title: title,
       completed: completed,
       status: status,
-    });
+    },
+    {
+      new: true,
+      runValidators: true
+    }
+  );
     return NextResponse.json(
       {
         message: "todo updated not yet...",
