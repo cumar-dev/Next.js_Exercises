@@ -58,26 +58,28 @@ export async function POST(req: NextRequest) {
     const todo = await Todo.create({
       title: title,
       completed: completed,
-      status: status
-    })
+      status: status,
+    });
 
-    if(!todo) {
-        return NextResponse.json({
-            message: "Todo not created yet"
+    if (!todo) {
+      return NextResponse.json(
+        {
+          message: "Todo not created yet",
         },
         {
-            status: 400
-        }
-    )
+          status: 400,
+        },
+      );
     }
-    return NextResponse.json({
+    return NextResponse.json(
+      {
         message: "TODO created successfully...",
-        todo: todo
-    },
-    {
-        status: 200
-    }
-)
+        todo: todo,
+      },
+      {
+        status: 200,
+      },
+    );
   } catch (error) {
     console.error("error", error);
     return NextResponse.json(
