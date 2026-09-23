@@ -1,3 +1,4 @@
+"use server";
 import { revalidatePath } from "next/cache";
 
 const API_URL = process.env.NEXT_PUBLIC_APP_URL;

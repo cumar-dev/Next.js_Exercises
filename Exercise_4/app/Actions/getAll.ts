@@ -1,3 +1,4 @@
+"use server";
 const API_URL = process.env.NEXT_PUBLIC_APP_URL;
 export async function getAll() {
     const response = await fetch(`${API_URL}/api/todos`, {

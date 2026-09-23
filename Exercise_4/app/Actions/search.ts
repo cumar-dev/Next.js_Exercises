@@ -5,11 +5,13 @@ import Todo from "../Model/Todo.model";
 
 export interface SearchTodosParams {
   query?: string;
+  priority?: "all" | "high" | "medium" | "low";
   completed?: "all" | "true" | "false";
 }
 
 export async function searchTodos({
   query = "",
+  priority = "all",
   completed = "all",
 }: SearchTodosParams) {
   await connectDB();
@@ -17,7 +19,14 @@ export async function searchTodos({
   const filter: Record<string, any> = {};
 
   if (query.trim()) {
-    filter.title = { $regex: query.trim(), $options: "i" };
+    filter.title = {
+      $regex: query.trim(),
+      $options: "i",
+    };
+  }
+
+  if (priority !== "all") {
+    filter.status = priority; 
   }
 
   if (completed === "true") {

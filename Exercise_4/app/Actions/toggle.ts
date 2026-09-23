@@ -1,3 +1,4 @@
+"use server";
 import { update } from "./update";
 
 export async function toggle(

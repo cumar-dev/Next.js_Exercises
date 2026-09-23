@@ -8,6 +8,7 @@ export const todoSchema = new mongoose.Schema(
     },
     completed: {
       type: Boolean,
+      default: false
     },
     status: {
       type: String,
@@ -18,5 +19,5 @@ export const todoSchema = new mongoose.Schema(
   { timestamps: true },
 );
 
-const Todo = mongoose.model("todoSchema", todoSchema);
+const Todo = mongoose.models.todoSchema || mongoose.model("todoSchema", todoSchema);
 export default Todo;

@@ -1,23 +1,18 @@
-import { NextResponse } from "next/server";
+"use server";
+
 import { update } from "./update";
 
-export async function formData(
+export async function updateTodoFromForm(
   id: string,
   completed: boolean,
-  status: string,
   formData: FormData,
 ) {
   const title = formData.get("title") as string;
   const newStatus = formData.get("status") as string;
-  if (!title || !newStatus || !completed) {
-    return NextResponse.json(
-      {
-        message: "still fields not get",
-      },
-      {
-        status: 400,
-      },
-    );
+
+  if (!title || !newStatus || typeof completed !== "boolean") {
+    throw new Error("Please fill all fields");
   }
+
   await update(id, title, completed, newStatus);
 }

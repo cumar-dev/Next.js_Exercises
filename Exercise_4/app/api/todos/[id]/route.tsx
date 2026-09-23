@@ -8,25 +8,40 @@ interface Props {
   }>;
 }
 
-export async function GET({ params }: Props) {
+export async function GET(request: NextRequest, { params }: Props) {
   try {
     await connectDB();
+
     const { id } = await params;
+
     if (!id) {
       return NextResponse.json(
         {
-          message: "ID not pass yet",
+          message: "ID not passed yet",
         },
         {
           status: 400,
         },
       );
     }
-    const todo = await Todo.findById(id).sort({ createdAt: -1 });
+
+    const todo = await Todo.findById(id);
+
+    if (!todo) {
+      return NextResponse.json(
+        {
+          message: "Todo not found",
+        },
+        {
+          status: 404,
+        },
+      );
+    }
+
     return NextResponse.json(
       {
-        message: "Todo by ID not found",
-        todo: todo,
+        message: "Todo found",
+        todo,
       },
       {
         status: 200,
@@ -34,9 +49,10 @@ export async function GET({ params }: Props) {
     );
   } catch (error) {
     console.error("error", error);
+
     return NextResponse.json(
       {
-        message: "server error",
+        message: "Server error",
       },
       {
         status: 500,
@@ -70,16 +86,18 @@ export async function PUT(req: NextRequest, { params }: Props) {
         },
       );
     }
-    const todo = await Todo.findByIdAndUpdate(id, {
-      title: title,
-      completed: completed,
-      status: status,
-    },
-    {
-      new: true,
-      runValidators: true
-    }
-  );
+    const todo = await Todo.findByIdAndUpdate(
+      id,
+      {
+        title: title,
+        completed: completed,
+        status: status,
+      },
+      {
+        new: true,
+        runValidators: true,
+      },
+    );
     return NextResponse.json(
       {
         message: "todo updated not yet...",
